@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta property="fb:app_id" content="1545543408794841" />
+
+  <title>
+    
+      How to keep things running after you close your terminal (Linux/Unix) &middot; Ricardo's Place
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="/public/css/images.css">
+  <link rel="stylesheet" href="/public/css/extras.css">
+
+  <!-- Icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">-->
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+
+  <!-- <base target="_blank"> -->
+  
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<!-- <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox" > -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>Here I'm trying to present, in a kind of organised way, the things I'm doing, I've done, I'm planning to do or just dreaming about...</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/" target="_self">Home</a>
+
+    
+
+    
+    
+      
+        
+          <a class="sidebar-nav-item" href="/about/" target="_self">About...</a>
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/publications/" target="_self">My Publications</a>
+        
+      
+    
+
+    <a class="sidebar-nav-item" href="https://scholar.google.co.uk/citations?user=F8AFA4gAAAAJ">Google Scholar Profile</a>
+    <a class="sidebar-nav-item" href="https://github.com/ricardodeazambuja">GitHub Repositories</a>
+    <a class="sidebar-nav-item" href="https://uk.linkedin.com/in/ricardodeazambuja">LinkedIn Profile</a>
+    <a class="sidebar-nav-item" href="https://www.youtube.com/c/RicardodeAzambuja">My Youtube Channel</a>
+    <a class="sidebar-nav-item" href="http://www.thingiverse.com/ricardodeazambuja/designs">Thingverse Profile</a>
+    <!--<a class="sidebar-nav-item" href="/public/azambuja-cv-last_site.pdf">Curriculum Vitae (PDF file)</a>-->
+
+    <span class="sidebar-nav-item">Currently v0.0.0.alpha.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2018. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home" target="_self">Ricardo's Place</a>
+            <small>Robotics, machine learning, or simply random thoughts!</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">How to keep things running after you close your terminal (Linux/Unix)</h1>
+  <span class="post-date">28 Feb 2017</span>
+      <p>When you start playing with cloud computing like <a target="_blank" href="https://aws.amazon.com/">Amazon Web Services</a>, you will, sometimes, decide to launch a program that will take a while to run. If you simply close the connection before all processes are finished, the system will terminate <a target="_blank" href="https://www.gnu.org/software/bash/">bash</a> (or whatever <a target="_blank" href="http://www.freeos.com/guides/lsst/ch01sec07.html">shell</a> you were using) and, therefore, your program will be also terminated. Normally, when we are working on a terminal, we make use of the <code class="highlighter-rouge">&amp;</code> (or <code class="highlighter-rouge">ctrl+z</code> and <code class="highlighter-rouge">bg</code>) to send things to the background freeing the terminal. If you sent your process to background, you will be able to use <a target="_blank" href="https://www.cyberciti.biz/faq/unix-linux-jobs-command-examples-usage-syntax/"><code class="highlighter-rouge">jobs</code></a> to display information about processes that are sleeping (the <code class="highlighter-rouge">ctrl+z</code> thing) or running on the background.</p>
+
+<!--more-->
+
+<p>The problem here is that your processes running on the background will be terminated anyway. There are at least two solutions. The simplest one is installing <a target="_blank" href="https://en.wikipedia.org/wiki/Nohup"><code class="highlighter-rouge">nohup</code></a> on your computer (in case it’s not already available):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt-get install nohup
+</code></pre></div></div>
+
+<p>With <code class="highlighter-rouge">nohup</code>, you really just need to add it in front of your normal command and send it to the background (e.g. <code class="highlighter-rouge">$ nohup ls &amp;</code>). By default, a file called <code class="highlighter-rouge">nohup.out</code> will be created with all the output (<a target="_blank" href="http://stackoverflow.com/a/3385261">stdout/stderr</a>) generated by your program. You can find more “nohup stuff” <a target="_blank" href="http://linux.101hacks.com/unix/nohup-command/">here</a>.</p>
+
+<p>The second option is to manually do what <code class="highlighter-rouge">nohup</code> does, but using <code class="highlighter-rouge">disown</code>. This is explained <a target="_blank" href="http://stackoverflow.com/a/625436">here</a>. You will need to send your process to background (<code class="highlighter-rouge">&amp;</code> or <code class="highlighter-rouge">ctrl+z</code> and <code class="highlighter-rouge">bg</code>), verify its job number with <code class="highlighter-rouge">jobs -l</code> and then:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ disown -h job_number_you_just_found
+</code></pre></div></div>
+
+<p><strong>UPDATE (05/03/2017):</strong></p>
+
+<p>Today, I was launching some simulations on a server and I decided to do it using <code class="highlighter-rouge">&amp;&amp;</code> to make sure the next step would only be executed if the previous had finished without errors. The <a target="_blank" href="http://unix.stackexchange.com/questions/47230/how-to-execute-multiple-command-using-nohup">solution</a>, using <code class="highlighter-rouge">nohup</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ nohup sh -c 'first_command &amp;&amp; second_command' &amp;
+</code></pre></div></div>
+
+<p>That’s it. Have a happy cloud computing experience!</p>
+
+<p>Cheers!</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          
+            <li>
+              <h3>
+              <a class="" href= target="_self">
+                
+              </a>
+             </h3>
+            </li>
+          
+        
+          
+            <li>
+              <h3>
+              <a class="" href=/linux/2017/02/28/Nohup_magic/ target="_self">
+                How to keep things running after you close your terminal (Linux/Unix)
+              </a>
+             </h3>
+            </li>
+          
+            <li>
+              <h3>
+              <a class="" href=/linux/2017/02/28/Mounting_exfat_on_linux_Ubuntu/ target="_self">
+                Mounting an external USB device formatted with exFAT on Linux Ubuntu
+              </a>
+             </h3>
+            </li>
+          
+        
+      
+    
+      
+    
+      
+    
+  </ul>
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href=/linux/2017/02/28/Mounting_exfat_on_linux_Ubuntu/ target="_self">Older</a>
+  
+  
+    <a class="pagination-item newer" href="/deep_learning/2017/03/05/easy-peasy_conv_deep_learning_two/" target="_self">Newer</a>
+  
+</div>
+
+
+
+
+
+<div id="disqus_thread"></div>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = "";  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = "/linux/2017/02/28/Nohup_magic"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//ricardos-place.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+  </body>
+</html>

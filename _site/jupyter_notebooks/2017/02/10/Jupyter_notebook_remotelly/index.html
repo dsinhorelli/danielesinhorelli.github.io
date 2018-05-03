@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta property="fb:app_id" content="1545543408794841" />
+
+  <title>
+    
+      Running a Jupyter Notebook (IPython) on a remote server &middot; Ricardo's Place
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="/public/css/images.css">
+  <link rel="stylesheet" href="/public/css/extras.css">
+
+  <!-- Icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">-->
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+
+  <!-- <base target="_blank"> -->
+  
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<!-- <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox" > -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>Here I'm trying to present, in a kind of organised way, the things I'm doing, I've done, I'm planning to do or just dreaming about...</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/" target="_self">Home</a>
+
+    
+
+    
+    
+      
+        
+          <a class="sidebar-nav-item" href="/about/" target="_self">About...</a>
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/publications/" target="_self">My Publications</a>
+        
+      
+    
+
+    <a class="sidebar-nav-item" href="https://scholar.google.co.uk/citations?user=F8AFA4gAAAAJ">Google Scholar Profile</a>
+    <a class="sidebar-nav-item" href="https://github.com/ricardodeazambuja">GitHub Repositories</a>
+    <a class="sidebar-nav-item" href="https://uk.linkedin.com/in/ricardodeazambuja">LinkedIn Profile</a>
+    <a class="sidebar-nav-item" href="https://www.youtube.com/c/RicardodeAzambuja">My Youtube Channel</a>
+    <a class="sidebar-nav-item" href="http://www.thingiverse.com/ricardodeazambuja/designs">Thingverse Profile</a>
+    <!--<a class="sidebar-nav-item" href="/public/azambuja-cv-last_site.pdf">Curriculum Vitae (PDF file)</a>-->
+
+    <span class="sidebar-nav-item">Currently v0.0.0.alpha.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      © 2018. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home" target="_self">Ricardo's Place</a>
+            <small>Robotics, machine learning, or simply random thoughts!</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Running a Jupyter Notebook (IPython) on a remote server</h1>
+  <span class="post-date">10 Feb 2017</span>
+      <p>Do you know what is a <a target="_blank" href="http://jupyter.org/">Jupyter Notebook</a>? If you don’t, please, have a look at the previous link and come back later… just joking… ok, seriously, check the previous link because they will do a much better job explaining what is a Jupyter Notebook than me <img class="emoji" title=":wink:" alt=":wink:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f609.png" height="20" width="20">.</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/jupyter_notebook.jpg?style=centerme" alt="jupyter notebook">
+  <figcaption>This is what I was doing just before start writing this post.</figcaption>
+</figure>
+
+<!--more-->
+
+<p>Why do I love those notebooks? Probably it’s started long time ago while I still was a <a target="_blank" href="https://www.wolfram.com/mathematica/">Mathematica</a>, <a target="_blank" href="http://www.maplesoft.com/products/maple/">Maple</a> and <a target="_blank" href="https://uk.mathworks.com/discovery/mupad.html">MuPad</a> user, but I would say I like notebooks mainly because I can keep, in one place, code, comments (pure text, <a target="_blank" href="http://jupyter-notebook.readthedocs.io/en/latest/examples/Notebook/Working%20With%20Markdown%20Cells.html">Markdown</a>, <a target="_blank" href="https://blog.dominodatalab.com/lesser-known-ways-of-using-notebooks/">HTML</a>, <a target="_blank" href="http://jupyter-notebook.readthedocs.io/en/latest/examples/Notebook/Typesetting%20Equations.html">LaTeX</a>, <a target="_blank" href="http://louistiao.me/posts/notebooks/embedding-matplotlib-animations-in-jupyter-notebooks/">animations</a>, <a target="_blank" href="http://nbviewer.jupyter.org/github/ipython/ipython/blob/1.x/examples/notebooks/Part%205%20-%20Rich%20Display%20System.ipynb#Video">external images/videos</a>, etc) and, the most important, results. I can also easily share things by exporting a notebook as HTML or PDF or uploading it to a place where there’s a notebook viewer (you can see an example <a target="_blank" href="https://github.com/ricardodeazambuja/keras-adventures/blob/master/Dogs_vs_Cats/Keras%20Cats%20and%20Dogs%20-%20normal%20deep%20net%20(not%20so%20deep).ipynb">here</a>). I’ve never tested Jupyter with other languages but Python, so I will tell you about my experiences using Python. In the past, Jupyter notebooks used to be called IPython notebooks, therefore it was Python only. However, currently it supports more than 40 programming languages including <a target="_blank" href="https://ipython.org/notebook.html">Python</a>, <a target="_blank" href="https://irkernel.github.io/">R</a>, <a target="_blank" href="https://github.com/JuliaLang/IJulia.jl">Julia</a>, <a target="_blank" href="https://github.com/SciRuby/iruby">Ruby</a> and <a target="_blank" href="https://www.scala-lang.org/">Scala</a> (this is the first time I’ve read about Scala…).</p>
+
+<p>Ok, let’s make a list of the things we want to learn here:</p>
+
+<ul class="task-list">
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Launch a Jupyter Notebook server without automatically opening a browser.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Create a SSH tunnel to redirect a local port to the server.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Access your remote server from your browser.</li>
+</ul>
+
+<p>Jupyter is capable to serve, just like a <a target="_blank" href="https://en.wikipedia.org/wiki/Web_server">web server</a>, notebooks directly to any browser. They give you full instructions <a target="_blank" href="http://jupyter-notebook.readthedocs.io/en/latest/public_server.html">here</a>. The problem with that solution, in my opinion, is the complexity. If you just carelessly open things, you are going to expose your server <img class="emoji" title=":scream:" alt=":scream:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f631.png" height="20" width="20">.</p>
+
+<p>To launch the Jupyter Notebook server (on the remote computer) and keep it running after we logout, we will need help from our friend <a target="_blank" href="https://en.wikipedia.org/wiki/Nohup"><code class="highlighter-rouge">nohup</code></a>. Nohup allows us to logout without killing the processes our terminal started and the ampersand (<code class="highlighter-rouge">&amp;</code>) sends <code class="highlighter-rouge">nohup</code> to the background <em>freeing</em> the terminal (in case you want to do something else after launching it…). The <a target="_blank" href="http://stackoverflow.com/a/31953548">command</a> to launch the notebook without also launching the web browser (even if you are accessing it remotely through <code class="highlighter-rouge">ssh</code> using the <code class="highlighter-rouge">-X</code> option to redirect the display, it would be a waste of resources and time):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ nohup jupyter notebook --no-browser &amp;
+</code></pre></div></div>
+<div class="message">
+  Caveat: You will only be able to access files (and subdirs) located on the current directory.
+</div>
+
+<p>After that, you can disconnect from the remote computer, open a terminal on the client computer and type this (more details about the <em><a target="_blank" href="https://linux.die.net/man/1/ssh">ssh</a> tunneling magic</em> can be found <a target="_blank" href="http://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html">here</a>):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -nNT -L 9999:localhost:8888 user@example.com
+</code></pre></div></div>
+<p>The command line above has only two things you surely must change: <code class="highlighter-rouge">user</code> is the username at the remote computer and <code class="highlighter-rouge">example.com</code> will probably be replaced by the remote computer’s IP address. Now we have created a tunnel that will redirect the <a target="_blank" href="https://en.wikipedia.org/wiki/Port_(computer_networking)">port</a> 9999 to the remote server port 8888 (this is the default used by Jupyter). I’m using the port number 9999 because, usually, I also have a local Jupyter Notebook server running at 8888.</p>
+
+<p>The only thing you need to do now is launch your browser and access the url <del><code class="highlighter-rouge">localhost:8888</code></del> <code class="highlighter-rouge">localhost:9999</code> and done, you have got a remote Jupyter Notebook working!</p>
+
+<p>Recalling the list at the beginning of this post:</p>
+
+<ul class="task-list">
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Launch a Jupyter Notebook server without automatically opening a browser.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Create a SSH tunnel to redirect a local port to the server.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Access your remote server from your browser.</li>
+</ul>
+
+<p><strong>UPDATE (05/03/2017):</strong></p>
+
+<p>If you execute the command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -nNT -L 9999:localhost:8888 user@example.com
+</code></pre></div></div>
+
+<p>You will be capable to access the port 8888 from <code class="highlighter-rouge">example.com</code>, on your local machine, using <code class="highlighter-rouge">localhost:9999</code>. However, if you want to allow other machines to easily access that port too, it will not be possible. I had this problem last week when I was trying to show some contents on <a target="_blank" href="https://www.ald.softbankrobotics.com/en/cool-robots/pepper">Pepper’s</a> tablet through <a target="_blank" href="https://docs.python.org/2/library/simplehttpserver.html">a very simple Python web server</a> hosted on a virtual machine. My team from <a target="_blank" href="https://github.com/ricardodeazambuja/Hackathon-Plymouth-2017">NAO Hackathon</a> was in a hurry and I could not make the redirection work (I should have read the <a target="_blank" href="https://linux.die.net/man/1/ssh">manual</a><img class="emoji" title=":disappointed:" alt=":disappointed:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f61e.png" height="20" width="20">). Ok, so there are at least three possible solutions. The first one will work if your computer (the client here) has only one network address:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -nNT -L :9999:localhost:8888 user@example.com
+</code></pre></div></div>
+
+<p>If your computer has more than one network adapter, you can <em>bind</em> an IP (forcing the tunnel only through the bound IP) using this command (the second possible solution):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -nNT -L ip_you_want_to_bind:9999:localhost:8888 user@example.com
+</code></pre></div></div>
+
+<p>The third possibility (<em>SSH-BASED VIRTUAL PRIVATE NETWORKS</em>) can be found on the <a target="_blank" href="https://linux.die.net/man/1/ssh">ssh manual webpage</a> (or, in case you want a more straightforward link, <a target="_blank" href="http://superuser.com/a/311863">here</a>) and it involves more than one command line (the <code class="highlighter-rouge">-f</code> argument only sends ssh to background) and you will need to mess with <code class="highlighter-rouge">ifconfig</code> and <code class="highlighter-rouge">route</code>. I’m not sure if <code class="highlighter-rouge">route</code> works the same on all Unix flavours, but apparently it <a target="_blank" href="https://en.wikipedia.org/wiki/Route_(command)">does</a>. I think this last solution is a more robust one when the connection is supposed to be perpetual instead of something to run during some minutes only.</p>
+
+<p><strong>UPDATE (11/03/2017):</strong></p>
+
+<p>When you redirect the port using the commands I’ve presented above, you must call <code class="highlighter-rouge">%matplotlib inline</code> if you want to generate plots or you will also need to redirect the display, but this may not be available if the external server doesn’t have a screen (ok, you could use <a target="_blank" href="http://askubuntu.com/a/633805">this</a>). <code class="highlighter-rouge">ssh</code> is full of useful <a target="_blank" href="http://matt.might.net/articles/ssh-hacks/">tricks</a> <img class="emoji" title=":wink:" alt=":wink:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f609.png" height="20" width="20">.</p>
+
+<p>Cheers!</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          
+            <li>
+              <h3>
+              <a class="" href="target=%22_self%22">
+                
+              </a>
+             </h3>
+            </li>
+          
+        
+          
+            <li>
+              <h3>
+              <a class="" href="/jupyter_notebooks/2017/02/10/Jupyter_notebook_remotelly/" target="_self">
+                Running a Jupyter Notebook (IPython) on a remote server
+              </a>
+             </h3>
+            </li>
+          
+        
+      
+    
+      
+    
+      
+    
+      
+    
+  </ul>
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/deep_learning/2017/01/29/easy-peasy_deep_learning/" target="_self">Older</a>
+  
+  
+    <a class="pagination-item newer" href="/deep_learning/2017/02/12/easy-peasy_deep_learning_one_and_a_half/" target="_self">Newer</a>
+  
+</div>
+
+
+
+
+
+<div id="disqus_thread"></div>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = "";  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = "/jupyter_notebooks/2017/02/10/Jupyter_notebook_remotelly"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//ricardos-place.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+  </body>
+</html>

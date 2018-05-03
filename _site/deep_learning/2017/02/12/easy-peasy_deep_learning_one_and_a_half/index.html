@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta property="fb:app_id" content="1545543408794841" />
+
+  <title>
+    
+      Easy-peasy Deep Learning and Convolutional Networks with Keras - Part&nbsp;1&frac12; &middot; Ricardo's Place
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="/public/css/images.css">
+  <link rel="stylesheet" href="/public/css/extras.css">
+
+  <!-- Icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">-->
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+
+  <!-- <base target="_blank"> -->
+  
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<!-- <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox" > -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>Here I'm trying to present, in a kind of organised way, the things I'm doing, I've done, I'm planning to do or just dreaming about...</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/" target="_self">Home</a>
+
+    
+
+    
+    
+      
+        
+          <a class="sidebar-nav-item" href="/about/" target="_self">About...</a>
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/publications/" target="_self">My Publications</a>
+        
+      
+    
+
+    <a class="sidebar-nav-item" href="https://scholar.google.co.uk/citations?user=F8AFA4gAAAAJ">Google Scholar Profile</a>
+    <a class="sidebar-nav-item" href="https://github.com/ricardodeazambuja">GitHub Repositories</a>
+    <a class="sidebar-nav-item" href="https://uk.linkedin.com/in/ricardodeazambuja">LinkedIn Profile</a>
+    <a class="sidebar-nav-item" href="https://www.youtube.com/c/RicardodeAzambuja">My Youtube Channel</a>
+    <a class="sidebar-nav-item" href="http://www.thingiverse.com/ricardodeazambuja/designs">Thingverse Profile</a>
+    <!--<a class="sidebar-nav-item" href="/public/azambuja-cv-last_site.pdf">Curriculum Vitae (PDF file)</a>-->
+
+    <span class="sidebar-nav-item">Currently v0.0.0.alpha.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      © 2018. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home" target="_self">Ricardo's Place</a>
+            <small>Robotics, machine learning, or simply random thoughts!</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Easy-peasy Deep Learning and Convolutional Networks with Keras - Part 1½</h1>
+  <span class="post-date">12 Feb 2017</span>
+      <p>This is the continuation, <em>Part 1½</em>, of the <a target="_blank" href="http://localhost:4000/deep_learning/2017/01/29/easy-peasy_deep_learning/">“Easy-peasy Deep Learning and Convolutional Networks with Keras”</a>. Do you really need to read <a target="_blank" href="http://localhost:4000/deep_learning/2017/01/29/easy-peasy_deep_learning/"><em>Part 1</em></a> to understand what is going on here? Honestly, probably not, but I would suggest you doing so anyway.</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/output_trained.png?style=centerme" alt="Layers output as images">
+  <figcaption>This is what my trained network outputs, but viewed as RGB images.</figcaption>
+</figure>
+
+<!--more-->
+
+<p>Before we start, let me just tell you a little bit about <a target="_blank" href="/about/#me">myself</a>, as if you care…<img class="emoji" title=":stuck_out_tongue_winking_eye:" alt=":stuck_out_tongue_winking_eye:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f61c.png" height="20" width="20">. Am I writing these posts to give something back to the community? Yes, this is the <strong>main</strong> reason, but I’m doing this as well because when you try to explain, or teach, something, you actually learn a lot more than just passively studying and, I would dare say, it’s even more efficient than when you are <em>just</em> applying your knowledge to solve a real problem. So, this is not simply an <a target="_blank" href="https://en.wikipedia.org/wiki/Altruism">altruistic</a> thing. However, if everybody starts behaving like this, it will naturally help all the <em>players</em>, therefore it’s a very very nice win-win situation in my humble opinion<img class="emoji" title=":bowtie:" alt=":bowtie:" src="https://assets-cdn.github.com/images/icons/emoji/bowtie.png" height="20" width="20">.</p>
+
+<p>When I started writing the <em>Part 2</em> post, I thought I knew <em>a lot</em> about deep learning convolutional networks, although, <a target="_blank" href="http://www.wordreference.com/fren/lentement"><em>lentement</em></a>, I realized there were lots and lots of things I need to understand better. That was the reason why, actually, I decided to go back to the <a target="_blank" href="http://ricardodeazambuja.com/deep_learning/2017/01/29/easy-peasy_deep_learning/">initial model</a> and write a <em>Part 1½</em> post. To understand why convolutional layers are cool, we need to see what is happening after each layer and this can be done with Keras <a target="_blank" href="https://keras.io/layers/core/#dense">Dense</a> layers too.</p>
+
+<p>I’m trying to keep using this <em>outcomes methodology</em>, so here it comes. By the end of this post…</p>
+
+<ul class="task-list">
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Learn how images are flattened and transformed back to an image.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Visualize what happens when we don’t put together our images in a proper way.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Access internal layer outputs using Keras.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Visualize the internal layer outputs as if they where images.</li>
+</ul>
+
+<p><a target="_blank" href="http://ricardodeazambuja.com/deep_learning/2017/01/29/easy-peasy_deep_learning/">The first post</a> was based on a <a target="_blank" href="https://en.wikipedia.org/wiki/Feedforward_neural_network">Feedforward Neural Network</a> and the images where rescaled (downsampling) and flattened (transformed into 1D arrays) using this bit of Python code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">image</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span>
+ <span class="n">new_image_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">)</span>
+ <span class="n">input_vector</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">imresize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">new_image_size</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Sometimes, or most of the time, I need to think, and think again, to make sure I’m doing the right thing after I use <code class="highlighter-rouge">numpy.flatten</code> and I need to reconstruct the original array afterwards. The matrices bellow represent a simple 2x2 RBG image (I’m using <a target="_blank" href="http://docs.sympy.org/latest/tutorial/printing.html">Sympy</a> <code class="highlighter-rouge">Matrix</code> and <code class="highlighter-rouge">init_printing(use_latex='png')</code> to automatically transform from <code class="highlighter-rouge">numpy.ndarray</code> to <a target="_blank" href="http://www.latex-project.org/about/">LaTeX</a>):</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/simple_rgb_image_matrices.png?style=centerme" alt="Matrices for a 2x2 RGB image">
+  <figcaption>Matrices defining a 2x2 RGB image.</figcaption>
+</figure>
+
+<p>If you use <code class="highlighter-rouge">matplotlib.pyplot.imshow</code>, the result is the following image:</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/simple_rgb_image.png?style=centerme" alt="2x2 RGB image">
+  <figcaption>The 2x2 RGB image defined by the matrices above. A zero value for R,G and B means black.</figcaption>
+</figure>
+
+<p>When we apply <code class="highlighter-rouge">numpy.flatten</code> to our initial image, the <code class="highlighter-rouge">flatten</code> method gets element (0,0) from all 3 matrices, then element (0,1)… and, at the end, just glue them together as a big 1D array.</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/simple_rgb_image_matrices_flatten.png?style=centerme" alt="Effects of flatten">
+  <figcaption>From left to right: initial matrices, secondary one using the first element of each original matrix and the resultant 1D array when the columns are glued one after another.</figcaption>
+</figure>
+
+<p>And what does happen if you fool around with your matrices without any visual feedback? Here is a test that shows some crazy possibilities:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">141</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">testData</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">3</span><span class="p">)),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">'none'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Original"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">142</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">numpy</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">testData</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">'none'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Crazy 1"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">143</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">numpy</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">testData</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">'none'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Crazy 2"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">144</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">testData</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">'none'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Crazy 3"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>The above code generates the images below:</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/reshaped_images.png?style=centerme" alt="playing with reshape">
+  <figcaption>Testing what happens if you simply apply reshape to a flattened image.</figcaption>
+</figure>
+
+<p>Now, just for fun, I’m also publishing the original image, but as three matrices (I know it’s impossible to read, but it’s nice to show how even a 32x32 low-resolution image can be overwhelming when seen as matrices):</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/matrices_original_image.png?style=centerme" alt="original image, RGB matrices">
+  <figcaption>This was the output of Matrix after applying numpy.round to the original image.</figcaption>
+</figure>
+
+<p>Ok, ok, I think we already had enough <img class="emoji" title=":unamused:" alt=":unamused:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f612.png" height="20" width="20"> all those image reshaping, etc. All the discussion started to help us visualize what is happening inside our beloved neural networks. Keras has, at least, two different ways to access what is happening inside our model: <a target="_blank" href="https://keras.io/getting-started/functional-api-guide/">functional API</a> and <a target="_blank" href="https://keras.io/getting-started/faq/#how-can-i-obtain-the-output-of-an-intermediate-layer">creating a new model</a>. Since, by this time, this post is sufficiently long, I will skip the functional API and stick to the new model one.</p>
+
+<p>Using <a target="_blank" href="https://keras.io/getting-started/sequential-model-guide/">Keras Sequential model</a>, we can access each layer this way:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># loads our old model</span>
+<span class="n">my_97perc_acc</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s">'my_97perc_acc.h5'</span><span class="p">)</span>
+
+<span class="c"># creates helper variable to directly access layer instances</span>
+<span class="n">first_layer</span> <span class="o">=</span> <span class="n">my_97perc_acc</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">first_layer_after_activation</span> <span class="o">=</span> <span class="n">my_97perc_acc</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">second_layer</span> <span class="o">=</span> <span class="n">my_97perc_acc</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">second_layer_after_activation</span> <span class="o">=</span> <span class="n">my_97perc_acc</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>The code above loads our old model to <code class="highlighter-rouge">my_97perc_acc</code>. After that, all the layer instances are available in a list (<code class="highlighter-rouge">my_97perc_acc.layers</code>).</p>
+
+<p>I want to compare our trained model to a randomly initialized one, therefore I will create another Sequential model, but this time I will give names to my layers using the argument <code class="highlighter-rouge">name</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># https://keras.io/getting-started/sequential-model-guide/</span>
+<span class="c"># define the architecture of the network</span>
+<span class="n">model_rnd</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+
+<span class="c"># input layer has size "input_dim" (new_image_size[0]*new_image_size[1]*3).</span>
+<span class="c"># The first hidden layer will have size 768, followed by 384 and 2.</span>
+<span class="c"># 3072=&gt;768=&gt;384=&gt;2</span>
+<span class="n">input_len</span> <span class="o">=</span> <span class="n">new_image_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">new_image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span>
+
+
+<span class="c"># A Dense layer is a fully connected NN layer (feedforward)</span>
+<span class="c"># https://keras.io/layers/core/#dense</span>
+<span class="c"># init="uniform" will initialize the weights / bias randomly</span>
+<span class="n">model_rnd</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">input_len</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="n">input_len</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s">"uniform"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">"Input_layer"</span><span class="p">))</span>
+
+<span class="c"># https://keras.io/layers/core/#activation</span>
+<span class="c"># https://keras.io/activations/</span>
+<span class="n">model_rnd</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s">'relu'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">"Input_layer_act"</span><span class="p">))</span>
+
+
+<span class="c"># Now this layer will have output dimension of 384</span>
+<span class="n">model_rnd</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">input_len</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s">"uniform"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">"Hidden_layer"</span><span class="p">))</span>
+
+<span class="n">model_rnd</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s">'relu'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">"Hidden_layer_act"</span><span class="p">))</span>
+
+<span class="c"># Because we want to classify between only two classes (binary), the final output is 2</span>
+<span class="n">model_rnd</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">model_rnd</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s">"softmax"</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Moreover, we can give the same layer names to the model we loaded before changing the attribute <code class="highlighter-rouge">name</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">first_layer</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Input_layer"</span>
+<span class="n">first_layer_after_activation</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Input_layer_act"</span>
+<span class="n">second_layer</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Hidden_layer"</span>
+<span class="n">second_layer_after_activation</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Hidden_layer_act"</span>
+</code></pre></div></div>
+
+<p>Using same names it is super easy to swap models and, finally, we can use Keras <a target="_blank" href="https://keras.io/getting-started/faq/#how-can-i-obtain-the-output-of-an-intermediate-layer"><code class="highlighter-rouge">Model</code></a> to access internal layers:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">model_rnd</span>
+
+<span class="c"># model = my_97perc_acc</span>
+
+<span class="n">layer_name</span> <span class="o">=</span> <span class="s">'Input_layer_act'</span>
+<span class="n">input_layer_out</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="nb">input</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">layer_name</span><span class="p">)</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+
+<span class="n">layer_name</span> <span class="o">=</span> <span class="s">'Hidden_layer_act'</span>
+<span class="n">hidden_layer_out</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="nb">input</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">layer_name</span><span class="p">)</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Our intermediate outputs can be generated by simply calling the <code class="highlighter-rouge">predict</code> method:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">idx</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">input_image</span> <span class="o">=</span> <span class="n">testData</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="n">first_output</span> <span class="o">=</span> <span class="n">input_layer_out</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">input_image</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">testData</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">second_output</span> <span class="o">=</span> <span class="n">hidden_layer_out</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">input_image</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">testData</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">second_output</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">11</span><span class="o">*</span><span class="mi">11</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span> <span class="c"># little trick to fit into a RGB image</span>
+<span class="n">final_output</span> <span class="o">=</span>  <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">input_image</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">input_image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</code></pre></div></div>
+
+<p>Have you noticed there’s no call to <code class="highlighter-rouge">compile</code>? Apparently, <a target="_blank" href="https://github.com/fchollet/keras/issues/3074">since Keras version 1.0.3</a> this is not necessary anymore if you just want to use <code class="highlighter-rouge">predict</code> without any training.</p>
+
+<p>The resultant images can be visualized like this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">131</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">input_image</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">3</span><span class="p">)),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">'none'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Original - "</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">final_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">132</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">first_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">interpolation</span><span class="o">=</span><span class="s">'none'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"First Layer"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">133</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">second_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">interpolation</span><span class="o">=</span><span class="s">'none'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Second Layer"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Below, you can see the output for the trained network (the final output is presented in the original’s image title [P(dog),P(cat)]):</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/output_trained.png?style=centerme" alt="Layers output as images">
+  <figcaption>This is what my trained network outputs, but viewed as RGB images.</figcaption>
+</figure>
+
+<p>And the output for the randomly initialized one:</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/output_random.png?style=centerme" alt="Layers output as images">
+  <figcaption>This is what my randomly initialized network outputs, but viewed as RGB images.</figcaption>
+</figure>
+
+<p>I think it’s important to recall here the fact that <a target="_blank" href="https://keras.io/layers/core/#dense">Keras Dense layer</a> is a fully connected one. Consequently, each <a target="_blank" href="https://en.wikipedia.org/wiki/Pixel">pixel</a> in the image labeled <em>First Layer</em> receives inputs from <strong>ALL</strong> pixels in the original image (the individual pixels are multiplied by a <em>weight</em>, summed, added a <em>bias</em> and have to pass through the <em>activation function</em>) such situation also applies to the <em>Second Layer</em> in relation to the <em>First Layer</em> and, finally, to the last layer (our classifier) at the end. The operation used here to transform two input matrices (represented by pixel values and weights) into a scalar value (the number added to the bias before passing through the activation function) has a fancy name: <a target="_blank" href="https://en.wikipedia.org/wiki/Dot_product"><em>dot product</em></a>. This will be useful in the future…<img class="emoji" title=":grimacing:" alt=":grimacing:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f62c.png" height="20" width="20">.</p>
+
+<p>Last, but not least: can you see patterns for dogs or cats in the First or Second Layers? I can’t <img class="emoji" title=":satisfied:" alt=":satisfied:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f606.png" height="20" width="20">.</p>
+
+<figure>
+  <img src="http://localhost:4000/public/images/testing_multiple_images_internal.png?style=centerme" alt="Layers output as images">
+  <figcaption>A few examples of what the trained network generated.</figcaption>
+</figure>
+
+<p>I hope, by now, we can tick the boxes below:</p>
+
+<ul class="task-list">
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Learn how images are flattened and transformed back to an image.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Visualize what happens when we don’t put together our images in a proper way.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Access internal layer outputs using Keras.</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Visualize the internal layer outputs as if they where images.</li>
+</ul>
+
+<p>As promised, <a target="_blank" href="http://nbviewer.jupyter.org/github/ricardodeazambuja/keras-adventures/blob/master/Dogs_vs_Cats/Keras%20Cats%20and%20Dogs%20-%20normal%20deep%20net%20(not%20so%20deep)%20-%20visualization.ipynb">here</a> you can visualize (or download) a <a target="_blank" href="https://ipython.org/notebook.html">Jupyter (IPython) notebook</a> with all the source code and something else <img class="emoji" title=":wink:" alt=":wink:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f609.png" height="20" width="20">.</p>
+
+<p>In the next post, we <del>will</del> are going to see how to convert our simple <em>deep</em> neural network to a convolutional neural network. Cheers!</p>
+
+<!---
+<div class="message">
+  This is a draft... yep, I'm learning how to use Jekyll and I do test things on the production website :bowtie:
+</div>
+--->
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      
+    
+      
+    
+      
+        
+          
+            <li>
+              <h3>
+              <a class="" href="target=%22_self%22">
+                
+              </a>
+             </h3>
+            </li>
+          
+        
+          
+            <li>
+              <h3>
+              <a class="" href="/deep_learning/2017/03/05/easy-peasy_conv_deep_learning_two/" target="_self">
+                Easy-peasy Deep Learning and Convolutional Networks with Keras - Part 2
+              </a>
+             </h3>
+            </li>
+          
+            <li>
+              <h3>
+              <a class="" href="/deep_learning/2017/02/12/easy-peasy_deep_learning_one_and_a_half/" target="_self">
+                Easy-peasy Deep Learning and Convolutional Networks with Keras - Part 1½
+              </a>
+             </h3>
+            </li>
+          
+            <li>
+              <h3>
+              <a class="" href="/deep_learning/2017/01/29/easy-peasy_deep_learning/" target="_self">
+                Easy-peasy Deep Learning and Convolutional Networks with Keras - Part 1
+              </a>
+             </h3>
+            </li>
+          
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </ul>
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/jupyter_notebooks/2017/02/10/Jupyter_notebook_remotelly/" target="_self">Older</a>
+  
+  
+    <a class="pagination-item newer" href="/linux/2017/02/28/Mounting_exfat_on_linux_Ubuntu/" target="_self">Newer</a>
+  
+</div>
+
+
+
+
+
+<div id="disqus_thread"></div>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = "";  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = "/deep_learning/2017/02/12/easy-peasy_deep_learning_one_and_a_half"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//ricardos-place.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+  </body>
+</html>
