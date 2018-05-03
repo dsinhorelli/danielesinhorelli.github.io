@@ -1,1 +1,0 @@
-# ricardodeazambuja.github.io
